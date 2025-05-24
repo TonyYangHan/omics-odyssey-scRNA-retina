@@ -18,17 +18,17 @@ LABEL maintainer="UC San Diego ITS/ETS <ets-consult@ucsd.edu>"
 # 3) install packages using notebook user
 # USER jovyan
 
-RUN conda install -y scikit-learn scanpy pandas xgboost python-igraph
+# RUN conda install -y scikit-learn scanpy pandas xgboost python-igraph
 
 # RUN pip install --no-cache-dir networkx scipy
 
-# USER root
-# RUN mamba install -c conda-forge r-survey -y && \
-#     fix-permissions $CONDA_DIR && \
-#     fix-permissions /home/$NB_USER && \
-#     mamba clean -a -y
+USER root
+RUN mamba install -c conda-forge r-survey -y scikit-learn scanpy pandas xgboost python-igraph && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER && \
+    mamba clean -a -y
 
-# USER jovyan
+USER jovyan
 
 # Override command to disable running jupyter notebook at launch
 # CMD ["/bin/bash"]
