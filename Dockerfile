@@ -19,8 +19,37 @@ LABEL maintainer="UC San Diego ITS/ETS <ets-consult@ucsd.edu>"
 # USER jovyan
 
 RUN conda install -y scikit-learn scanpy pandas xgboost
-RUN conda install -y r-seuratdisk r-seurat
-RUN conda install -y -c bioconda bioconductor-edger
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libhdf5-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libgit2-dev \
+    libglpk-dev \
+    libudunits2-dev \
+    libgdal-dev \
+    libgeos-dev \
+    libproj-dev \
+    cmake \
+    && apt-get clean
+
+# Install required R packages
+RUN R -e "install.packages(c( \
+    'Seurat', \
+    'pheatmap', \
+    'viridis', \
+    'ComplexHeatmap', \
+    'remotes' \
+))"
+
+# Install Bioconductor packages
+RUN R -e "if (!requireNamespace('BiocManager', quietly=TRUE)) install.packages('BiocManager'); \
+          BiocManager::install(c('edgeR', 'SeuratDisk', 'monocle3', 'AUCell', 'RcisTarget', 'GENIE3'))"
+
+# Install SCENIC
+RUN R -e "remotes::install_github('aertslab/SCENIC')"
 
 # RUN pip install --no-cache-dir networkx scipy
 
