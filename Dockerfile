@@ -23,7 +23,7 @@ LABEL maintainer="UC San Diego ITS/ETS <ets-consult@ucsd.edu>"
 # RUN pip install --no-cache-dir networkx scipy
 
 USER root
-RUN mamba install -c conda-forge r-survey -y scikit-learn scanpy pandas xgboost python-igraph && \
+RUN mamba install -c conda-forge r-survey -y scikit-learn scanpy pandas xgboost igraph && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     mamba clean -a -y
