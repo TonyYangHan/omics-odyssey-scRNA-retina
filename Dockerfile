@@ -19,6 +19,8 @@ LABEL maintainer="UC San Diego ITS/ETS <ets-consult@ucsd.edu>"
 # USER jovyan
 
 RUN conda install -y scikit-learn scanpy pandas xgboost
+RUN conda install -y r-seuratdisk r-seurat
+RUN conda install -y -c bioconda bioconductor-edger
 
 # RUN pip install --no-cache-dir networkx scipy
 
